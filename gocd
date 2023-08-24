@@ -1,20 +1,30 @@
-# config.xml
+  ---
 pipelines:
-  SamplePipeline:
-    group: SampleGroup
+  - name: SamplePipeline
     materials:
-      git:
-        url: https://github.com/123-3456/testrepo-b37new.git
-        branch: main
+      - git: "https://github.com/123-3456/configrepo.git"
     stages:
-      Build:
+      - name: Build
         jobs:
-          Compile:
+          - name: Compile
             tasks:
-              - exec:
-                  command: make
+              - exec: "mvn clean compile"
+      - name: Test
+        jobs:
+          - name: UnitTest
+            tasks:
+              - exec: "mvn test"
+    tracking_tool:
+      type: "generic"
+      base_url: "https://your-issue-tracker.com/browse/:id"
 
 environments:
-  SampleEnvironment:
-    pipelines: 
+  - name: Dev
+    pipelines:
+      - SamplePipeline
+  - name: QA
+    pipelines:
+      - SamplePipeline
+  - name: Production
+    pipelines:
       - SamplePipeline
