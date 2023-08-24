@@ -1,0 +1,20 @@
+# config.xml
+pipelines:
+  SamplePipeline:
+    group: SampleGroup
+    materials:
+      git:
+        url: https://github.com/123-3456/testrepo-b37new.git
+        branch: main
+    stages:
+      Build:
+        jobs:
+          Compile:
+            tasks:
+              - exec:
+                  command: make
+
+environments:
+  SampleEnvironment:
+    pipelines: 
+      - SamplePipeline
